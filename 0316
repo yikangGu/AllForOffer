@@ -1,0 +1,56 @@
+输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。
+//思路：设置一个栈；可以用栈，当然也可以用递归
+class Solution {
+public:
+    
+    vector<int> printListFromTailToHead(ListNode* head) {
+        
+        vector<int> res;
+        if(head == nullptr) return res;
+        res = printListFromTailToHead(head->next);
+        res.push_back(head->val);
+        return res;
+    }
+};
+
+给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
+class Solution {
+public:
+    ListNode* EntryNodeOfLoop(ListNode* pHead)
+    {
+        if(pHead == nullptr || pHead->next==nullptr|| pHead->next->next==nullptr) return nullptr;
+        //快慢指针
+        ListNode* fast = pHead;
+        ListNode* slow = pHead->next;   //注意，这里快慢指针初始化不能都是pHead,否则会报错
+        while(fast != slow )
+        {
+            if(fast->next !=nullptr && fast->next->next != nullptr)
+            {
+                fast = fast->next->next;
+                slow = slow->next;
+            }else
+                return nullptr;
+        }
+        //计算环的数目
+        ListNode* nextp = slow->next;
+        
+        if(fast==slow&&fast!=NULL){
+            fast = pHead;
+            while(nextp != slow)
+            {
+                nextp = nextp->next;
+                fast = fast->next;
+            }
+        }else
+            return nullptr;
+
+        fast = fast->next;
+        slow = pHead;
+        while(slow != fast){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        
+        return slow;
+    }
+};
