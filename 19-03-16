@@ -1,0 +1,104 @@
+Answer1:
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    vector<vector<int> > res;
+    vector<vector<int> > FindPath(TreeNode* root,int expectNumber) {
+        if(root == nullptr) return res;
+        vector<int> path;
+        dfs(root, expectNumber, path);
+        return res;
+    }
+    
+    void dfs(TreeNode* root,int s, vector<int> & path)
+    {
+        path.push_back(root->val);
+        if(!root->left && !root->right)
+        {
+            if(s == root->val)
+            {
+                
+                res.push_back(path);
+                //return;                //注意这里不能加return，还要pop_back(),很容易出错
+            }
+        }
+        if(root->left != nullptr) dfs(root->left, s-root->val, path);
+        if(root->right != nullptr) dfs(root->right, s-root->val, path);
+        path.pop_back();         //注意这里因为要返回上一级，所以要pop（）
+    }
+        
+};
+
+Answer2:
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+int maxlen = 0;
+int n;
+int num[21] = {0};
+
+int calCount(string head, string str) {
+    for(int i=1;i<=min(head.size(),str.size());i++)
+    {
+        bool finish = true;
+        for(int j = i-1;j>=0;j--)
+        {
+            if(head[head.size()+j-i]!=str[j])
+            {
+                finish = false;
+                break;
+            }
+        }
+        if(finish) return i;    
+    }
+    return 0;
+}
+
+
+void dfs(vector<string> &words, int cur, string head)
+{
+    
+    if(cur > maxlen) maxlen = cur;
+    for(int i=0;i<n;i++){
+        int count = 0;
+        if(num[i]<2)
+        {
+            count = calCount(head, words[i]);
+            if(count>0) {
+                num[i]++;
+                dfs(words, cur + words[i].size()-count, words[i]);
+                num[i]--;
+            }
+        }
+    }
+}
+
+int main()
+{
+    
+    cin >> n;
+    vector<string> words;
+    for(int i=0;i<n;i++)
+    {
+        string one;
+        cin>>one;
+        words.push_back(one);
+    }
+    string head;
+    cin>>head;
+
+    dfs(words, 1, head);
+    cout << maxlen;
+    return 0;
+}
