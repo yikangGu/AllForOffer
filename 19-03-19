@@ -1,0 +1,64 @@
+Q1：
+最长回文字串，也是经典的动态规划问题
+
+class Palindrome {
+public:
+    int getLongestPalindrome(string s, int n) {
+        int size = s.size();
+        if (size <= 1) return s;
+        //用动态规划方法
+        //dp为size*size大小的矩阵，dp[i][j]表示以s[i]开头，s[j]结尾的回文串长度（如果不是回文串，则为0）
+        vector<vector<int>> dp(size);
+        for (int i = 0; i<size; i++) {
+            for (int j = 0; j<size; j++) {
+                //初始化，将对角线元素设为1
+                if(i==j) dp[i].push_back(1);
+                else dp[i].push_back(0);
+            }
+        }
+        
+        int start = 0, max = 1;
+        for (int j = 0; j < size;j++){
+            for (int i = j - 1; i >= 0; i--) {
+                if (s[i] == s[j]) {
+                    if(j-i==1) dp[i][j] = 2;
+                    else {
+                        if (dp[i + 1][j - 1]>0) {
+                            dp[i][j] = dp[i + 1][j - 1] + 2;
+                        }
+                        else dp[i][j] = 0;
+                    }
+                }
+                else dp[i][j] = 0;
+                if (dp[i][j]>max) {
+                    max = dp[i][j]; start = i;
+                }
+            }
+        }
+        return s.substr(start, max);
+    }
+};
+
+Q2:
+dp问题
+二维数组，思路比较简单些
+
+class Robot {
+public:
+    int countWays(vector<vector<int> > map, int x, int y) {
+        vector<vector<int> > dp(x,vector<int>(y,0));
+        
+        for(int i = 0; i < x; i ++){
+            for(int j = 0; j < y; j ++){
+                if(map[i][j] != 1) continue;
+                if(i == 0 && j == 0) dp[0][0] = 1;
+                else if(i != 0 && j == 0) dp[i][0] = dp[i-1][0] ;
+                else if(i == 0 && j != 0) dp[0][j] = dp[0][j-1] ;
+                else{
+                    dp[i][j] = (dp[i][j-1] + dp[i-1][j])%1000000007;
+                }
+            }
+        }
+        return dp[x-1][y-1];
+    }
+};
