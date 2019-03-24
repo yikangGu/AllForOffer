@@ -1,0 +1,51 @@
+Q1:
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(root==nullptr) return true;
+        return isSymmetricCore(root->left, root->right);
+    }
+    
+    bool isSymmetricCore(TreeNode* left, TreeNode* right) 
+    {
+        if(left==nullptr && right == nullptr) return true;
+        if(left == nullptr || right == nullptr) return false;
+        if(left->val == right->val)
+        {
+            return isSymmetricCore(left->left,right->right) && isSymmetricCore(left->right, right->left);
+        }
+        return false;
+    }
+};
+
+
+Q2:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>>res;
+		vector<int>temp;
+		queue<TreeNode*>q;
+		int target = 1;
+		int d = 0;
+		if (!root)
+			return res;
+		q.push(root);
+		while (!q.empty())
+		{
+			TreeNode *pt = q.front();
+			temp.push_back(pt->val);
+			q.pop();
+
+			if (pt->left)
+				q.push(pt->left);
+			if (pt->right)
+				q.push(pt->right);
+
+			if (target == ++d) {
+				target = q.size();
+				d = 0;
+				res.push_back(temp);
+				temp.clear();
+			}
+		}
+		return res;
+    }
