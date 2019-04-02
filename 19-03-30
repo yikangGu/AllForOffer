@@ -74,5 +74,78 @@ int main()
     return 0;
 }
 
+度度熊想去商场买一顶帽子，商场里有N顶帽子，有些帽子的价格可能相同。度度熊想买一顶价格第三便宜的帽子，问第三便宜的帽子价格是多少？
 
+输入描述:
+首先输入一个正整数N（N <= 50），接下来输入N个数表示每顶帽子的价格（价格均是正整数，且小于等于1000）
+
+输出描述:
+如果存在第三便宜的帽子，请输出这个价格是多少，否则输出-1
+
+输入例子1:
+10
+10 10 10 10 20 20 30 30 40 40
+
+输出例子1:
+30
+
+#include <stdio.h>
+#include <iostream>
+#include <algorithm>
+#include <set>
+using namespace std;
+int minK(int n, set<int>& price)
+{
+    if(price.size()<3) return -1;
+    set<int>::iterator it;
+    int i=0;
+    for(it=price.begin(); (it!=price.end() && i<2); it++,i++)
+    {
+ 
+    }
+    return *it;
+}
+int main()
+{
+    int n,tmp;
+    cin>> n;
+    set<int> price;
+    for(int i=0;i<n;i++)
+    {
+        cin >> tmp;
+        price.insert(tmp);
+    }
+    
+    cout << minK(n,price) << endl;
+    return 0;
+}
+
+一个数轴上共有N个点，第一个点的坐标是度度熊现在位置，第N-1个点是度度熊的家。现在他需要依次的从0号坐标走到N-1号坐标。
+但是除了0号坐标和N-1号坐标，他可以在其余的N-2个坐标中选出一个点，并直接将这个点忽略掉，问度度熊回家至少走多少距离？
+
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+int main()
+{
+    int n, a[50];
+    while (cin >> n)
+    {
+        int i, ans = 0;
+        for (i = 0; i < n; i++)
+        {
+            cin >> a[i];
+            /* 计算两个相邻节点之间的距离，ans为所有相邻节点距离的总和 */
+            if (i)
+                ans += abs(a[i] - a[i - 1]);
+        }
+        int _m = 0;
+        //计算相邻的3个节点之间的距离总和，A->B,B->C,A->C
+        for (i = 0; i < n - 2; i++)
+            _m = max(_m, abs(a[i] - a[i + 1]) + abs(a[i + 1] - a[i + 2]) - abs(a[i] - a[i + 2]));
+        cout << ans - _m << endl;//_m属于重复计算
+    }
+    return 0;
+}
 
