@@ -15,7 +15,6 @@ int maxArea(vector<int> &height)
 int main(int argc, char const *argv[])
 {
     vector<int> data = {1, 8, 6, 2, 5, 4, 8, 3, 7};
-    int result = maxArea(data);
-    cout << " max area: " << result << endl;
+    cout << " max area: " << maxArea(data) << endl;
     return 0;
 }
