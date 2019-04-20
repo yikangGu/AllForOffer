@@ -67,3 +67,65 @@ int main(int argc, char const *argv[])
     cout << " 5: " << isMatch("mississippi", "mis*is*p*.") << endl;
     return 0;
 }
+
+bool match(string &str, string &pat, int p1, int p2)
+{
+    if (p2 == 0 && pat[p2] == '*')
+    {
+        cerr << "Error of pattern!" << endl;
+        return 0;
+    }
+
+    if (str[p1] == pat[p2])
+    {
+        cout << "1" << endl;
+        if (str[p1] == '\0')
+            return 1;
+        ++p1;
+        ++p2;
+        return match(str, pat, p1, p2);
+    }
+    else if (pat[p2] == '.')
+    {
+        cout << "2" << endl;
+        if (str[p1] == '\0')
+            return 0;
+        pat[p2] = str[p1];
+        ++p1;
+        ++p2;
+        return match(str, pat, p1, p2);
+    }
+    else if (pat[p2 + 1] == '*')
+    {
+        cout << "3" << endl;
+        p2 = p2 + 2;
+        return match(str, pat, p1, p2);
+    }
+    else if (pat[p2] == '*')
+    {
+        cout << "4" << endl;
+        if (pat[p2 - 1] == str[p1])
+        {
+            ++p1;
+            return match(str, pat, p1, p2);
+        }
+        else
+        {
+            ++p2;
+            return match(str, pat, p1, p2);
+        }
+    }
+    else
+    {
+        cout << "5" << endl;
+        return 0;
+    }
+}
+
+// def isMatch(s, p):
+//     if p == "":
+//         return s == ""
+//     if len(p) > 1 and p[1] == "*":
+//         return isMatch(s, p[2:]) or (s and (s[0] == p[0] or p[0] == '.') and isMatch(s[1:], p))
+//     else:
+//         return s and (s[0] == p[0] or p[0] == '.') and isMatch(s[1:], p[1:])
