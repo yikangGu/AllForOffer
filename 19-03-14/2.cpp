@@ -15,7 +15,7 @@ string LPD(string s)
         for (size_t j = i + 1; j < s.size(); j++)
         {
             map[i][j] = s[i] == s[j] && (j - i < 3 || map[i + 1][j - 1]);
-            if (map[i][j] && j - i > left - right)
+            if (map[i][j] && j - i > right - left)
             {
                 left = i;
                 right = j;
@@ -23,7 +23,7 @@ string LPD(string s)
         }
     }
 
-    return s.substr(left, right - left - 1);
+    return s.substr(left, right - left + 1);
 }
 
 int main(int argc, char const *argv[])
