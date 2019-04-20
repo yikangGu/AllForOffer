@@ -5,16 +5,24 @@ using namespace std;
 
 string LPD(string s)
 {
-    vector<vector<bool>> map = {{0}};
-    for(size_t i = 0; i < s.size(); i++)
-        for(size_t j = i + 1; j < s.size(); j++)
-            if (s[i] == s[j]) map[i][j] == true;
-    map.begin()
+    vector<vector<bool>> map;
+    bool left, right;
+    for(size_t i = 1; i < s.size(); i++) {
+        for(size_t j = i + 1; j < s.size(); j++) {
+            map[i][j] = s[i] == s[j] && (j-i < 3 || map[i+1][j-1]);
+            // if (map[i][j] && j-i > left-right) {
+            //     left = i;
+            //     right = j;
+            // }
+        }
+    }
+
+    return "s"; //s.substr(left, right-left-1);
 }
 
 int main(int argc, char const *argv[])
 {
-    cout << " 1: " << LPD("aa") << endl;
-    cout << " 2: " << LPD("aa") << endl;
+    cout << " 1: " << LPD("babac") << endl;
+    cout << " 2: " << LPD("fvasdfdsaabi") << endl;
     return 0;
 }
