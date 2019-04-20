@@ -8,8 +8,9 @@ string LPD(string s)
     if (s.size() == 0)
         return s;
     vector<bool> row(s.size());
-    vector<vector<bool>> map(s.size(), row);
-    int left, right;
+    vector<vector<bool> > map(s.size(), row);
+    int left = 0;
+    int right = 0;
     for (size_t i = s.size() - 2; i > 0; i--)
     {
         for (size_t j = i + 1; j < s.size(); j++)
